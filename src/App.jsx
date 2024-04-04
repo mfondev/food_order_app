@@ -1,12 +1,12 @@
 import './App.css'
 import Meals from './components/Meals'
+import CartContextProvider from './store/cartContext'
 
 function App() {
-
   return (
-  <div>
-    <Meals />
-  </div>
+    <CartContextProvider>
+      <Meals />
+    </CartContextProvider>
   )
 }
 
