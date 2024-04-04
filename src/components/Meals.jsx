@@ -10,7 +10,7 @@ export default function Meals() {
   const { meals, error } = useFetch()
   return (
     <>
-      <div>
+      <div id='main-header'>
         <h1>What to eat Today </h1>
         <Button textOnly>Cart({isCart.length})</Button>
       </div>
