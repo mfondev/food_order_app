@@ -1,12 +1,17 @@
 import './App.css'
+import Cart from './components/Cart'
 import Meals from './components/Meals'
 import CartContextProvider from './store/cartContext'
+import UserContextProvider from './store/userContext'
 
 function App() {
   return (
-    <CartContextProvider>
-      <Meals />
-    </CartContextProvider>
+    <UserContextProvider>
+      <CartContextProvider>
+        <Meals />
+        <Cart />
+      </CartContextProvider>
+    </UserContextProvider>
   )
 }
 

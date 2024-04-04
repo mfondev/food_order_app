@@ -1,6 +1,7 @@
 import { createContext, useReducer } from 'react'
 import { useState } from 'react'
 
+
 export const cartContext = createContext({
   iscart: [],
   addToCart: (meal) => {},
@@ -34,8 +35,14 @@ export default function CartContextProvider({ children }) {
     }
   }
 
+  const getSubTotal = () => {
+    return isCart.reduce((total, item) => {
+      return total + item.price * item.quantity
+    }, 0)
+  }
+
   console.log(isCart)
-  const contextValue = { isCart, addToCart, removeFromCart }
+  const contextValue = { isCart, addToCart, removeFromCart, getSubTotal }
   return (
     <cartContext.Provider value={contextValue}>{children}</cartContext.Provider>
   )
