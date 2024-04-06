@@ -6,6 +6,7 @@ export const cartContext = createContext({
   iscart: [],
   addToCart: (meal) => {},
   removeFromCart: (id) => {},
+  reduceQuantity : (item) => {}
 })
 
 export default function CartContextProvider({ children }) {
@@ -35,14 +36,18 @@ export default function CartContextProvider({ children }) {
     }
   }
 
-  const getSubTotal = () => {
-    return isCart.reduce((total, item) => {
-      return total + item.price * item.quantity
-    }, 0)
+  const reduceQuantity = (itemId) => {
+    setIsCart((prevItems) => {
+      return prevItems.map((item) =>
+        item.id === itemId
+          ? { ...item, quantity: Math.max(item.quantity - 1, 1) } 
+          : item
+      )
+    })
   }
 
   console.log(isCart)
-  const contextValue = { isCart, addToCart, removeFromCart, getSubTotal }
+  const contextValue = { isCart, addToCart, removeFromCart, reduceQuantity }
   return (
     <cartContext.Provider value={contextValue}>{children}</cartContext.Provider>
   )
