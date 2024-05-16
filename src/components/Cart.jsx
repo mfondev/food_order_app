@@ -7,8 +7,13 @@ import { userContext } from '../store/userContext'
 import CartItem from './CartItem'
 
 export default function () {
-  const { isCart: cart, addToCart, removeFromCart,reduceQuantity } = useContext(cartContext)
-  const { userProgress, hideCart } = useContext(userContext)
+  const {
+    isCart: cart,
+    addToCart,
+    removeFromCart,
+    reduceQuantity,
+  } = useContext(cartContext)
+  const { userProgress, hideCart, showCheckout } = useContext(userContext)
 
   const cartTotal = cart.reduce((total, item) => {
     return total + item.quantity * item.price
@@ -17,8 +22,16 @@ export default function () {
   function handlehideCart() {
     hideCart()
   }
+
+  function handleShowCheckout() {
+    showCheckout()
+  }
   return (
-    <Modal className='cart' open={userProgress === 'cart'}>
+    <Modal
+      className='cart'
+      open={userProgress === 'cart'}
+      onClose={userProgress === 'cart' ? handlehideCart : null}
+    >
       <h2>Your Cart</h2>
       <ul>
         {cart.map((item) => {
@@ -32,7 +45,7 @@ export default function () {
               quantity={item.quantity}
               price={item.price}
               onIncrease={() => addToCart(item)}
-              onDecrease={() => reduceQuantity(item)}
+              onDecrease={() => reduceQuantity(item.id)}
             />
           )
         })}
@@ -42,7 +55,11 @@ export default function () {
         <Button textOnly onClick={handlehideCart}>
           Close
         </Button>
-        <Button>Go to Checkout</Button>
+        {cart.length > 0 ? (
+          <Button onClick={handleShowCheckout}>Go to Checkout</Button>
+        ) : (
+          ''
+        )}
       </p>
     </Modal>
   )
